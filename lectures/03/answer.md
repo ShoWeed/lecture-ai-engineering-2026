@@ -3,9 +3,18 @@
 ## 演習
 
 - 第1回（素のLLM）とエージェントの回答の違い：
+つらつらと長い問題が出てきたが、make_quizを登録した後はglossaryの内容をしっかり出力できた。
 - `--trace` で見えたツール呼び出し（ツール名と引数）：
+[tool call]   make_quiz({'lecture': 2})
 - 1つの質問での LLM 呼び出し回数（`requests`）：
+input_text_tokens=1050, input_tokens=1050, output_tokens=79, requests=2, tool_calls=1)
 - 追加したツールと、docstring に書いた説明：
+    """指定した回の用語から 1つを選び、
+    確認問題と答えを返す。
+    「第2回の確認問題を出して」のように、
+    復習用の問題を求められたときに使う。
+    lecture:演習の第何回かを設定する。intで1-5の範囲。
+    """
 
 ## 宿題
 

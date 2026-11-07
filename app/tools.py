@@ -7,6 +7,7 @@
 import json
 from functools import cache
 from pathlib import Path
+import random
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 MAX_RESULTS = 3
@@ -77,3 +78,39 @@ def get_lecture_summary(lecture: int) -> str:
         available = sorted(p.stem for p in (DATA_DIR / "lectures").glob("*.md"))
         return f"第{lecture}回の要点はまだありません。用意されている回: {', '.join(available)}"
     return path.read_text(encoding="utf-8")
+
+
+def save_learning_log(topic: str, note: str) -> str:
+    """ユーザーの学習記録をファイルに保存する。
+    ユーザーが明示的に保存を依頼した場合に使う。
+    """
+    print('start: save_learning_log')
+    path = DATA_DIR / "learning_log.jsonl"
+
+    with path.open("a", encoding="utf-8") as f:
+        f.write(
+            json.dumps(
+                {"topic": topic, "note": note},
+                ensure_ascii=False
+            ) + "\n"
+        )
+
+    return "学習記録を保存しました。"
+
+def make_quiz(lecture: int) -> str:
+    """指定した回の用語から 1つを選び、
+    確認問題と答えを返す。
+    「第2回の確認問題を出して」のように、
+    復習用の問題を求められたときに使う。
+    lecture:演習の第何回かを設定する。intで1-5の範囲。
+    """
+    # 1. load_glossary() から lecture が一致する用語を集める
+    # 2. 1 つ選ぶ（random.choice ）
+    # 3. 問題と答えを文字列で返す（ json.dumps など）
+    glossary = load_glossary()
+    lecture_items = [g for g in glossary if g['lecture'] == lecture]
+    lecture_choice_item = random.choice(lecture_items)
+    return json.dumps({
+        'question':lecture_choice_item['term'], 
+        'answer':lecture_choice_item['definition'], 
+    },ensure_ascii=False,)
