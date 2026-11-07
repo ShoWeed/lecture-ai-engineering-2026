@@ -18,7 +18,23 @@ input_text_tokens=1050, input_tokens=1050, output_tokens=79, requests=2, tool_ca
 
 ## 宿題
 
-- 取り組んだレベル：基礎 / 実装 / 発展
+- 取り組んだレベル：基礎 / 実装
 - やったこと：
+INSTRUCTIONS や docstringを変更。
+ save_learning_log とrequires_approvalをつけて登録
 - 結果：
+INSTRUCTIONS や docstringを変更。
+【変更前】
+[usage] RunUsage(cost=Decimal('0.0005506'), details={'text_prompt_tokens': 727}, input_text_tokens=727, input_tokens=727, output_tokens=133, requests=2, tool_calls=1)
+【変更後】
+[usage] RunUsage(cost=Decimal('0.0005899'), details={'text_prompt_tokens': 833}, input_text_tokens=833, input_tokens=833, output_tokens=136, 
+requests=2, tool_calls=1)
+
+ save_learning_log とrequires_approvalをつけて登録
+ →関数とagent.tool_plain(tools.save_learning_log, requires_approval=True)を登録。
 - 気づき・疑問：
+ INSTRUCTIONS や docstringを変更してみたが、意外と結果が変わらなく意外だった。
+ 性能が高いと指示が明確でなくてもできるのか？
+ agent.tool_plain(tools.save_learning_log, requires_approval=True)をAIの指導のもと、登録してみたが、何も藩王がなかった。
+ CLIを利用するタスクはなかったのかな。
+ もっと検証したいが時間がとれないのでここまで。
